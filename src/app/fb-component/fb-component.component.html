@@ -1,5 +1,13 @@
 <p>fb-component works!</p>
 
+<input type="text" #txt (keyup.enter)="addToList(txt.value)"/>
+
 <button (click)="onBtnClick()">ClickMe</button>
 
 <span class="sTag">{{status}}</span>
+
+<ul>
+    <li *ngFor="let single of list" >
+        {{single}}
+    </li>
+</ul>
