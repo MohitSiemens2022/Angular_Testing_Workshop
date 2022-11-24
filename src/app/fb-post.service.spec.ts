@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +12,7 @@ describe('FbPostService', () => {
   let service: FbPostService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports:[HttpClientTestingModule]});
     service = TestBed.inject(FbPostService);
   });
 
@@ -32,7 +33,7 @@ describe('FbPostService', () => {
 
       declarations:[AppComponent],
 
-      imports:[BrowserTestingModule, AppRoutingModule]
+      imports:[BrowserTestingModule, AppRoutingModule,HttpClientTestingModule]
 
     }).compileComponents();
 
@@ -74,7 +75,7 @@ describe('Test Functions of FbPostService', () => {
   var fbSvc: FbPostService;
   var objPost: PostData;
   beforeEach(async () => {
-    await TestBed.configureTestingModule({}).compileComponents();
+    await TestBed.configureTestingModule({imports:[HttpClientTestingModule]}).compileComponents();
     fbSvc = TestBed.inject(FbPostService);
     objPost = new PostData();
   });

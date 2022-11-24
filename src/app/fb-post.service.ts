@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { PostData } from './post-data';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FbPostService {
 
-  constructor() { }
+  constructor(public http:HttpClient) { }
 
   public posts:PostData[] = [];
 
@@ -16,5 +17,9 @@ export class FbPostService {
 
     this.posts.push(post);
 
+  }
+
+  public getPosts(){
+    return this.http.get<PostData[]>('https://jsonplaceholder.typicode.com/posts');
   }
 }

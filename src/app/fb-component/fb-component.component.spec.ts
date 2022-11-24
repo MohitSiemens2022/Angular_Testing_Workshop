@@ -1,5 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FbPostService } from '../fb-post.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 
 import { FbComponentComponent } from './fb-component.component';
 import { HtmlParser } from '@angular/compiler';
@@ -12,6 +14,7 @@ describe('FbComponentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports:[HttpClientTestingModule],
       declarations: [ FbComponentComponent ]
     }).compileComponents();
 
@@ -96,3 +99,43 @@ describe('FbComponentComponent', () => {
   });
 });
 
+describe('Test http calls', () => {
+ 
+  let controller:HttpTestingController;
+  let fbSvc:FbPostService;
+  beforeEach(()=>{
+    TestBed.configureTestingModule({
+      imports:[HttpClientTestingModule]
+    });
+
+    controller = TestBed.inject(HttpTestingController);
+    fbSvc = TestBed.inject(FbPostService);
+  })
+
+  it('should behave...', fakeAsync(() => {  }));
+
+  it('Call posts service', fakeAsync(() => {  
+
+  let response = [{
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "qui est esse",
+    "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+  }
+];
+fbSvc.getPosts().subscribe(data => {
+expect(data.length).toBe(2);
+})
+const request = controller.expectOne(request => request.method == 'GET' && request.url === 'https://jsonplaceholder.typicode.com/posts');
+request.flush(response);
+controller.verify();
+
+}));
+
+});
